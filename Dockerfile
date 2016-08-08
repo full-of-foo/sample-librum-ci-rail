@@ -1,10 +1,7 @@
 FROM alpine:3.2
 
 RUN apk update && apk --update add ruby ruby-irb ruby-json ruby-rake \
-    ruby-bigdecimal ruby-io-console libstdc++ tzdata sqlite-dev nodejs
-
-ADD Gemfile /app/
-ADD Gemfile.lock /app/
+    ruby-bigdecimal ruby-io-console libstdc++ tzdata sqlite-dev postgresql-client nodejs
 
 RUN apk --update add --virtual build-dependencies build-base ruby-dev openssl-dev \
     postgresql-dev libc-dev linux-headers && \
@@ -12,7 +9,7 @@ RUN apk --update add --virtual build-dependencies build-base ruby-dev openssl-de
 
 COPY Gemfile* /tmp/
 WORKDIR /tmp
-RUN bundle install --without development production \
+RUN bundle install \
   && mkdir -p /app \
   && cd /app \
   && apk del build-dependencies

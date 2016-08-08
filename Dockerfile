@@ -22,5 +22,5 @@ RUN chown -R nobody:nogroup /app
 USER nobody
 WORKDIR /app
 
-# docker run -e RAILS_ENV=test -it --entrypoint="ash" ruby-rails-sample -c rake test
+RUN chmod +x run-tests.sh
 CMD ["bundle", "exec", "unicorn", "-p", "8080", "-c", "./config/unicorn.rb"]
